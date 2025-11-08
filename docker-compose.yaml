@@ -1,0 +1,78 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./my-react-app
+    container_name: frontend_c
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./my-react-app:/app          # 👈 Live sync local React code
+      - /app/node_modules            # 👈 Prevent overwriting node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true     # 👈 Ensures file watching inside Docker
+    depends_on:
+      - backend
+    restart: always
+    command: ["npm", "start"]        # 👈 React dev server for live reload
+
+  backend:
+    build: ./backend
+    container_name: backend_c
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app               # 👈 Live sync backend code
+      - /app/node_modules
+    environment:
+      DB_HOST: mysql_db
+      DB_USER: root
+      DB_PASSWORD: ""                # No password
+      DB_NAME: recipehub
+      DB_PORT: 3306
+      NODE_ENV: development
+    depends_on:
+      - mysql_db
+    stdin_open: true
+    tty: true
+    restart: always
+    # 👇 Wait until MySQL is ready, then start the backend
+    command: >
+      sh -c "
+      until nc -z mysql_db 3306;
+      do echo '⏳ Waiting for MySQL to be ready...';
+      sleep 3;
+      done;
+      echo '✅ MySQL is ready! Starting backend...';
+      npm run dev
+      "
+
+  mysql_db:
+    image: mysql:8.0
+    container_name: recipehub_mysql
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: recipehub
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: recipehub_phpmyadmin
+    restart: always
+    depends_on:
+      - mysql_db
+    environment:
+      PMA_HOST: mysql_db
+      PMA_USER: root
+      PMA_PASSWORD: ""               # No password
+      PMA_ARBITRARY: 1
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+
+volumes:
+  mysql_data:
