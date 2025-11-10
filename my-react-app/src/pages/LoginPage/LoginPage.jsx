@@ -24,7 +24,7 @@ const LoginPage = () => {
       if (response.ok) {
         alert('✅ Login successful!');
         console.log('User:', data);
-        navigate('/home'); // change this route to wherever you want after login
+        navigate('/'); 
       } else {
         alert(`❌ Login failed: ${data.message || 'Invalid credentials'}`);
       }
