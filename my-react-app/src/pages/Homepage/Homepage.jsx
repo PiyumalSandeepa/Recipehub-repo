@@ -52,7 +52,7 @@ const Homepage = () => {
         ></div>
 
         <div className="hero-content">
-          <h1 className="hero-title">Discover Delicious Recipes Every Day</h1>
+          <h1 className="hero-title">scover Delicious Recipes Every Day</h1>
           <p className="hero-subtitle">
             From classic comfort foods to modern culinary creations — explore, cook, and share your love for food.
           </p>
