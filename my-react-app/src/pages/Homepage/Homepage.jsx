@@ -44,7 +44,7 @@ const Homepage = () => {
     <div className="homepage">
       <Navbar />
 
-      {/* Hero Section */}
+      
       <div className="hero-section">
         <div
           className="hero-image"
@@ -75,7 +75,7 @@ const Homepage = () => {
         </button>
       </div>
 
-      {/* Existing Latest Recipes Section */}
+  
       <section className="latest-recipes">
         <h2 className="latest-title">LATEST RECIPES</h2>
 
@@ -106,7 +106,7 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* New Quick Dinner Suggestions Section */}
+      
       <section className="quick-dinner-suggestions">
         <h2 className="quick-title">SOME QUICK DINNER SUGGESTIONS!</h2>
 

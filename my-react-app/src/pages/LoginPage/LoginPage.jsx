@@ -22,15 +22,15 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert('✅ Login successful!');
+        alert(' Login successful!');
         console.log('User:', data);
         navigate('/'); 
       } else {
-        alert(`❌ Login failed: ${data.message || 'Invalid credentials'}`);
+        alert(` Login failed: ${data.message || 'Invalid credentials'}`);
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('⚠️ Server error. Please try again later.');
+      alert(' Server error. Please try again later.');
     }
   };
 

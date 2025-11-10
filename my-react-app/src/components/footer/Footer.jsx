@@ -10,7 +10,7 @@ const Footer = () => {
           <span className="logo-text">RecipeHub</span>
         </div>
 
-        {/* Quick Links */}
+
         <div className="footer-links">
           <h4>Quick Links</h4>
           <ul>
@@ -22,7 +22,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Contact Info */}
+        
         <div className="footer-contact">
           <h4>Contact Us</h4>
           <p>Email: support@recipehub.com</p>
@@ -30,7 +30,7 @@ const Footer = () => {
           <p>Address: 123 Food Street, Flavor Town</p>
         </div>
 
-        {/* Social Icons */}
+        
         <div className="footer-social">
           <h4>Follow Us</h4>
           <div className="social-icons">
@@ -42,7 +42,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Copyright */}
+      
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} RecipeHub. All rights reserved.</p>
       </div>

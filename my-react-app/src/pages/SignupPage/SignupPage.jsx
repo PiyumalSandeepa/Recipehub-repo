@@ -29,20 +29,20 @@ const SignupPage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        alert('✅ Signup successful! You can now log in.');
+        alert(' Signup successful! You can now log in.');
         navigate('/login');
       } else {
         const errorData = await response.text();
         try {
           const parsedError = JSON.parse(errorData);
-          alert(`❌ Signup failed: ${parsedError.message || 'Unknown error'}`);
+          alert(` Signup failed: ${parsedError.message || 'Unknown error'}`);
         } catch (e) {
-          alert('❌ Signup failed: Server error');
+          alert(' Signup failed: Server error');
         }
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('⚠️ Server error. Please try again later.');
+      alert(' Server error. Please try again later.');
     }
   };
 

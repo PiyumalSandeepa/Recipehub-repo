@@ -1,6 +1,6 @@
 const db = require('../db');
 
-// Create table if not exists
+
 (async () => {
   try {
     await db.query(`

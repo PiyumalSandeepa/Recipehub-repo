@@ -1,44 +1,44 @@
-/* ✅ Fixed navbar at very top, no white area */
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: #1a3a52; /* Dark blue */
+  background: #1a3a52; 
   display: flex;
-  justify-content: center; /* Center everything horizontally */
+  justify-content: center; 
   align-items: center;
   padding: 0 40px;
   box-sizing: border-box;
 }
 
-/* ✅ Remove unwanted gaps */
+
 body {
   margin: 0;
   padding: 0;
 }
 
-/* ✅ Optional logo placeholder (can be hidden or positioned elsewhere) */
+
 .nav-logo {
   color: white;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.5px;
   position: absolute;
-  left: 40px; /* Keeps logo fixed to left, while center stays balanced */
+  left: 40px; 
 }
 
-/* ✅ Center navigation menu with login button inline */
+
 .nav-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px; /* space between nav items */
+  gap: 40px;
   padding: 18px 0;
 }
 
-/* ✅ Navigation items */
+
 .nav-item {
   color: white;
   text-decoration: none;
@@ -52,7 +52,7 @@ body {
   color: #ff6b6b;
 }
 
-/* ✅ Login button inline with nav items */
+
 .nav-user {
   display: flex;
   align-items: center;
@@ -76,7 +76,7 @@ body {
   font-weight: 600;
 }
 
-/* ✅ Responsive tweaks */
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -100,6 +100,6 @@ body {
   }
 
   .nav-user-text {
-    display: none; /* Hide text on mobile */
+    display: none;
   }
 }

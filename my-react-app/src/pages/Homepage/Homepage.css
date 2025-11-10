@@ -5,17 +5,17 @@
   position: relative;
 }
 
-/* ✅ Fixed Navbar */
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: #1a3a52; /* Dark blue */
+  background: #1a3a52; 
 }
 
-/* Navigation links */
+
 .nav-menu {
   display: flex;
   justify-content: center;
@@ -33,7 +33,7 @@
 }
 
 .nav-item:hover {
-  color: #667eea; /* soft blue hover */
+  color: #667eea; 
 }
 
 /* Hero Section */
@@ -50,7 +50,7 @@
   padding-top: 70px; /* leave space for fixed navbar */
 }
 
-/* Background image with filter for readability */
+
 .hero-image {
   position: absolute;
   top: 0;
@@ -66,7 +66,7 @@
   transition: all 0.3s ease;
 }
 
-/* Overlay for extra contrast */
+
 .hero-section::before {
   content: '';
   position: absolute;
@@ -167,13 +167,11 @@
     font-size: 1em;
   }
 }
-/* ============================= */
-/* ✅ Latest Recipes Section */
-/* ============================= */
+
 
 .latest-recipes {
   width: 100%;
-  background-color: #eaf2f6; /* soft gray-blue */
+  background-color: #eaf2f6; 
   padding: 80px 10%;
   display: flex;
   flex-direction: column;
@@ -181,7 +179,7 @@
 }
 
 .latest-title {
-  color: #0c2d48; /* dark navy */
+  color: #0c2d48; 
   font-size: 2.2rem;
   font-weight: 800;
   margin-bottom: 50px;
@@ -196,7 +194,7 @@
   justify-content: center;
   width: 100%;
   max-width: 1200px;
-  background-color: #d8e5ec; /* slightly darker blue-gray */
+  background-color: #d8e5ec;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(26, 58, 82, 0.2);

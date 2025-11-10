@@ -1,6 +1,6 @@
 import React from "react";
 import "./FoodCard.css";
-import heroImage from "../../assets/images/login.jpg"; // Make sure this path matches your project structure
+import heroImage from "../../assets/images/login.jpg"; 
 
 const FoodCard = ({ title, date, user, description }) => {
   return (

@@ -1,19 +1,19 @@
 .login-page {
-    /* Full viewport size */
-    min-height: calc(100vh - 60px); /* Subtract navbar height */
-    width: 100vw;
-    margin-top: 60px; /* Add margin for navbar */
     
-    /* Background Image Styling with dark overlay */
+    min-height: calc(100vh - 60px); 
+    width: 100vw;
+    margin-top: 60px; 
+    
+    
     background-image: 
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url('../../assets/images/login.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed; /* Parallax effect */
+    background-attachment: fixed; 
     
-    /* Flexbox to center the login card */
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +21,7 @@
     position: relative;
     padding: 20px;
     
-    /* Backdrop blur for modern effect */
+
     backdrop-filter: blur(8px);
 }
 
