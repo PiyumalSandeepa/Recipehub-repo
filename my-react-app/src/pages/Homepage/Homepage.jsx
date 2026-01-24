@@ -1,50 +1,42 @@
-import React from 'react';
+// my-react-app/src/pages/Homepage/Homepage.jsx
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import './Homepage.css';
 import loginImage from '../../assets/images/heroimage.jpg';
-
-const quickDinnerRecipes = [
-  {
-    title: "One pot chicken risoni with crispy salami",
-    date: "Jan 31, 2024",
-    comments: 148,
-    tag: "QUICK & EASY",
-    description: "Delicious one pot chicken risoni with crispy salami, perfect for a quick dinner.",
-    image: loginImage,
-  },
-  {
-    title: "Thai Coconut Pumpkin Soup",
-    date: "Aug 9, 2023",
-    comments: 190,
-    tag: "QUICK & EASY",
-    description: "Creamy and flavorful Thai coconut pumpkin soup that's both comforting and healthy.",
-    image: loginImage,
-  },
-  {
-    title: "Arayes – Lebanese Meat-Stuffed Crispy Pita",
-    date: "Jul 31, 2023",
-    comments: 165,
-    tag: "QUICK & EASY",
-    description: "Crispy pita bread stuffed with seasoned meat, a Lebanese classic you will love.",
-    image: loginImage,
-  },
-  {
-    title: "Beef chow mein (ground/mince recipe!)",
-    date: "Jul 3, 2023",
-    comments: 124,
-    tag: "QUICK & EASY",
-    description: "Quick and tasty beef chow mein using ground beef for an easy dinner.",
-    image: loginImage,
-  },
-  
-];
+import RecipeCard from '../../components/RecipeCard/RecipeCard';
 
 const Homepage = () => {
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // Fetch recipes from backend when the page loads
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/recipes');
+
+        if (!response.ok) {
+          throw new Error('Failed to load recipes');
+        }
+
+        const data = await response.json();
+        setRecipes(data);
+      } catch (err) {
+        setError(err.message || 'Error loading recipes');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipes();
+  }, []);
+
   return (
     <div className="homepage">
       <Navbar />
 
-      
+      {/* Hero Section */}
       <div className="hero-section">
         <div
           className="hero-image"
@@ -52,9 +44,10 @@ const Homepage = () => {
         ></div>
 
         <div className="hero-content">
-          <h1 className="hero-title">scover Delicious Recipes Every Day</h1>
+          <h1 className="hero-title">Discover Delicious Recipes Every Day</h1>
           <p className="hero-subtitle">
-            From classic comfort foods to modern culinary creations — explore, cook, and share your love for food.
+            From classic comfort foods to modern culinary creations — explore,
+            cook, and share your love for food.
           </p>
           <button className="cta-button">
             GET RECIPE <span className="arrow">→</span>
@@ -75,7 +68,7 @@ const Homepage = () => {
         </button>
       </div>
 
-  
+      {/* Latest Recipes (static for now) */}
       <section className="latest-recipes">
         <h2 className="latest-title">LATEST RECIPES</h2>
 
@@ -94,42 +87,30 @@ const Homepage = () => {
             </div>
 
             <p className="recipe-description">
-              Cajun Baked Salmon Bites is just a really tasty, no-fuss way to cook salmon, fast (12 minutes!).
-              Cut into cubes so the Cajun flavour hits every bite, then bake in a hot oven so it browns without
-              overcooking the inside. No stove splatter, yay!
+              Cajun Baked Salmon Bites is just a really tasty, no-fuss way to
+              cook salmon, fast (12 minutes!). Cut into cubes so the Cajun
+              flavour hits every bite, then bake in a hot oven so it browns
+              without overcooking the inside. No stove splatter, yay!
             </p>
 
-            <button className="recipe-button">
-              GET THE RECIPE →
-            </button>
+            <button className="recipe-button">GET THE RECIPE →</button>
           </div>
         </div>
       </section>
 
-      
+      {/* Quick Dinner Suggestions (dynamic from DB) */}
       <section className="quick-dinner-suggestions">
         <h2 className="quick-title">SOME QUICK DINNER SUGGESTIONS!</h2>
 
+        {loading && <p>Loading recipes...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
         <div className="quick-dinner-grid">
-          {quickDinnerRecipes.map((recipe, index) => (
-            <div className="quick-dinner-card" key={index}>
-              <div
-                className="quick-dinner-image"
-                style={{ backgroundImage: `url(${recipe.image})` }}
-              >
-                <span className="quick-tag">{recipe.tag}</span>
-              </div>
-
-              <div className="quick-dinner-meta">
-                <span>💬 {recipe.comments}</span>
-                <span>📅 {recipe.date}</span>
-              </div>
-
-              <h3 className="quick-dinner-title">{recipe.title}</h3>
-
-              <p className="quick-dinner-desc">{recipe.description}</p>
-            </div>
-          ))}
+          {!loading &&
+            !error &&
+            recipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            ))}
         </div>
       </section>
     </div>

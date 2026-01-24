@@ -261,12 +261,25 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+.quick-dinner-publisher {
+  padding: 0 12px;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+}
 
 .recipe-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(26, 58, 82, 0.4);
 }
-
+.quick-dinner-publisher {
+  padding: 0 12px;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+}
 /* Responsive Design */
 @media (max-width: 900px) {
   .recipe-card {

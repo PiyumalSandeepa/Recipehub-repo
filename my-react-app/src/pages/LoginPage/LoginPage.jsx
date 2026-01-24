@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+import { setCurrentUser } from '../../utils/auth';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     try {
-      const response = await fetch('http://localhost:4000/login', {
+      const response = await fetch('http://localhost:4000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -22,15 +26,24 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(' Login successful!');
-        console.log('User:', data);
-        navigate('/'); 
+        // data.user comes from backend userController: { message, user }
+        if (data.user) {
+          setCurrentUser(data.user);
+        }
+
+        alert('Login successful!');
+        console.log('Logged-in user:', data.user);
+
+        // Go to My Food Bank (you can change to '/' if you prefer)
+        navigate('/my-food-bank');
       } else {
-        alert(` Login failed: ${data.message || 'Invalid credentials'}`);
+        alert(`Login failed: ${data.message || 'Invalid credentials'}`);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert(' Server error. Please try again later.');
+      console.error('Login error:', error);
+      alert('Server error. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,6 +64,7 @@ const LoginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
 
             <label htmlFor="password">Password</label>
@@ -60,19 +74,20 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
 
             <div className="remember-forgot">
               <label className="remember-me">
-                <input type="checkbox" /> Remember me
+                <input type="checkbox" disabled={loading} /> Remember me
               </label>
               <a href="/forgot-password" className="forgot-password">
                 Forgot Password?
               </a>
             </div>
 
-            <button type="submit" className="login-button">
-              Log In
+            <button type="submit" className="login-button" disabled={loading}>
+              {loading ? 'Logging in...' : 'Log In'}
             </button>
           </form>
 
@@ -88,6 +103,7 @@ const LoginPage = () => {
                 cursor: 'pointer',
                 textDecoration: 'underline',
               }}
+              disabled={loading}
             >
               Sign Up
             </button>
