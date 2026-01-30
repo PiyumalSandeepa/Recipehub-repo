@@ -19,7 +19,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}   # Docker Hub username
-          password: ${{ secrets.DOCKERHUB_TOKEN }}      # Docker Hub access token
+          password: ${{ secrets.DEVOPS }}      # Docker Hub access token
 
       # 3️⃣ Build & Push Backend Docker Image
       - name: Build & Push Backend Image
