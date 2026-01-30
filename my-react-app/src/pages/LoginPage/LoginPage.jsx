@@ -11,11 +11,12 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/login', {
+      console.log('Attempting login to:', 'http://localhost:4000/api/users/login'); // Debug log
+      
+      const response = await fetch('http://localhost:4000/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,22 +24,26 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      console.log('Response status:', response.status); // Debug log
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        alert(`Login failed: ${response.status} - ${errorText}`);
+        setLoading(false);
+        return;
+      }
+
       const data = await response.json();
 
-      if (response.ok) {
-        // data.user comes from backend userController: { message, user }
-        if (data.user) {
-          setCurrentUser(data.user);
-        }
-
-        alert('Login successful!');
-        console.log('Logged-in user:', data.user);
-
-        // Go to My Food Bank (you can change to '/' if you prefer)
-        navigate('/my-food-bank');
-      } else {
-        alert(`Login failed: ${data.message || 'Invalid credentials'}`);
+      if (data.user) {
+        setCurrentUser(data.user);
       }
+
+      alert('Login successful!');
+      console.log('Logged-in user:', data.user);
+      navigate('/my-food-bank');
+      
     } catch (error) {
       console.error('Login error:', error);
       alert('Server error. Please try again later.');

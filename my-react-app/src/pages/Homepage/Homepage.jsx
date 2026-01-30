@@ -1,11 +1,14 @@
 // my-react-app/src/pages/Homepage/Homepage.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ FIX
 import Navbar from '../../components/Navbar/Navbar';
 import './Homepage.css';
 import loginImage from '../../assets/images/heroimage.jpg';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 
 const Homepage = () => {
+  const navigate = useNavigate(); // ✅ FIX
+
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -49,7 +52,11 @@ const Homepage = () => {
             From classic comfort foods to modern culinary creations — explore,
             cook, and share your love for food.
           </p>
-          <button className="cta-button">
+
+          <button
+            className="cta-button"
+            onClick={() => navigate('/recipes')}
+          >
             GET RECIPE <span className="arrow">→</span>
           </button>
         </div>
@@ -68,7 +75,7 @@ const Homepage = () => {
         </button>
       </div>
 
-      {/* Latest Recipes (static for now) */}
+      {/* Latest Recipes (static) */}
       <section className="latest-recipes">
         <h2 className="latest-title">LATEST RECIPES</h2>
 
@@ -87,10 +94,9 @@ const Homepage = () => {
             </div>
 
             <p className="recipe-description">
-              Cajun Baked Salmon Bites is just a really tasty, no-fuss way to
-              cook salmon, fast (12 minutes!). Cut into cubes so the Cajun
-              flavour hits every bite, then bake in a hot oven so it browns
-              without overcooking the inside. No stove splatter, yay!
+              Cajun Baked Salmon Bites is a tasty, no-fuss way to cook salmon
+              fast (12 minutes!). Cut into cubes so the Cajun flavour hits
+              every bite.
             </p>
 
             <button className="recipe-button">GET THE RECIPE →</button>
@@ -98,7 +104,7 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Quick Dinner Suggestions (dynamic from DB) */}
+      {/* Quick Dinner Suggestions (dynamic) */}
       <section className="quick-dinner-suggestions">
         <h2 className="quick-title">SOME QUICK DINNER SUGGESTIONS!</h2>
 

@@ -1,44 +1,50 @@
-const db = require('../db');
+const db = require('../db'); // Use the project's db.js connection pool
 
-
-(async () => {
-  try {
-    await db.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255),
-        username VARCHAR(255),
-        email VARCHAR(255) UNIQUE,
-        password VARCHAR(255)
-      )
-    `);
-    console.log('✅ users table ready');
-  } catch (err) {
-    console.error('Error creating users table:', err);
+class User {
+  static async findByEmail(email) {
+    try {
+      const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
+      return rows[0] || null;
+    } catch (error) {
+      console.error('Error in findByEmail:', error);
+      throw error;
+    }
   }
-})();
 
-const User = {
-  async create({ name, username, email, password }) {
-    const [result] = await db.query(
-      `INSERT INTO users (name, username, email, password) VALUES (?, ?, ?, ?)`,
-      [name, username, email, password]
-    );
-    return { id: result.insertId, name, username, email };
-  },
-
-  async findByEmail(email) {
-    const [rows] = await db.query(`SELECT * FROM users WHERE email = ?`, [email]);
-    return rows[0];
-  },
-
-  async verifyUser(email, password) {
-    const [rows] = await db.query(
-      `SELECT * FROM users WHERE email = ? AND password = ?`,
-      [email, password]
-    );
-    return rows[0];
+  static async create({ name, username, email, password }) {
+    try {
+      const [result] = await db.query(
+        'INSERT INTO users (name, username, email, password) VALUES (?, ?, ?, ?)',
+        [name, username, email, password]  // Plain text password
+      );
+      return { id: result.insertId, name, username, email };
+    } catch (error) {
+      console.error('Error in create:', error);
+      throw error;
+    }
   }
-};
+
+  // ⭐ ADD THIS METHOD FOR LOGIN (without bcrypt)
+  static async verifyUser(email, password) {
+    try {
+      const user = await this.findByEmail(email);
+      if (!user) {
+        return null;  // User not found
+      }
+
+      // Compare plain text passwords
+      if (user.password !== password) {
+        return null;  // Wrong password
+      }
+
+      // Return user without password
+      const { password: _, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    } catch (error) {
+      console.error('Error in verifyUser:', error);
+      throw error;
+    }
+  }
+}
 
 module.exports = User;

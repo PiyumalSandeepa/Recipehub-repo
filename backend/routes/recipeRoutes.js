@@ -1,4 +1,3 @@
-// backend/routes/recipeRoutes.js
 const express = require('express');
 const router = express.Router();
 const {
@@ -10,22 +9,22 @@ const {
   deleteRecipe,
 } = require('../controllers/recipeController');
 
-// All recipes
+// Get all recipes
 router.get('/', getRecipes);
 
-// Recipes of a specific user
+// Get recipes by user
 router.get('/user/:userId', getRecipesByUser);
 
-// Single recipe
+// Get single recipe
 router.get('/:id', getRecipeById);
 
-// Create new recipe
+// Create recipe
 router.post('/', createRecipe);
 
-// Update recipe (owner only)
+// Update recipe
 router.put('/:id', updateRecipe);
 
-// Delete recipe (owner only)
+// Delete recipe
 router.delete('/:id', deleteRecipe);
 
 module.exports = router;
