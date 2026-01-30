@@ -14,32 +14,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Login to Docker Hub
+      # 2️⃣ Log in to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}   # Docker Hub username secret
-          password: ${{ secrets.DEVOPS }}            # Docker Hub token secret
+          username: ${{ secrets.DEVOPS_USERNAME }}
+          password: ${{ secrets.DEVOPS }}
 
-      # 3️⃣ Build & Push Backend Image
+      # 3️⃣ Build & Push Backend Docker image
       - name: Build & Push Backend Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-backend:latest ./backend
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-backend:latest
+          docker build -t ${{ secrets.DEVOPS_USERNAME }}/recipehub-backend:latest ./backend
+          docker push ${{ secrets.DEVOPS_USERNAME }}/recipehub-backend:latest
 
-      # 4️⃣ Build & Push Frontend Image
+      # 4️⃣ Build & Push Frontend Docker image
       - name: Build & Push Frontend Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-frontend:latest ./my-react-app
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-frontend:latest
+          docker build -t ${{ secrets.DEVOPS_USERNAME }}/recipehub-frontend:latest ./my-react-app
+          docker push ${{ secrets.DEVOPS_USERNAME }}/recipehub-frontend:latest
 
-      # 5️⃣ Deploy on EC2 via SSH
-      - name: Deploy on EC2
+      # 5️⃣ Deploy to EC2
+      - name: Deploy on EC2 via SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.EC2_PUBLIC_IP }}   # EC2 public IP secret
+          host: ${{ secrets.EC2_PUBLIC_IP }}
           username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}      # Paste .pem file in this secret
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           script: |
             cd ~/recipehub
             docker-compose pull
