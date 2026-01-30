@@ -42,7 +42,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}      # EC2 private key (.pem) secret
           port: 22
           script: |
-            cd ~/recipehub
             docker-compose pull
             docker-compose down
             docker-compose up -d
