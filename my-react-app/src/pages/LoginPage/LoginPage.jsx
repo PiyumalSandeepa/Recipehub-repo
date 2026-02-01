@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import { setCurrentUser } from '../../utils/auth';
+import { API_BASE_URL } from '../../config/api';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,9 +15,9 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      console.log('Attempting login to:', `${process.env.REACT_APP_API_URL}/api/users/login`); // Debug log
+      console.log('Attempting login to:', `${API_BASE_URL}/api/users/login`); // Debug log
       
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

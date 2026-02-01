@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './MyRecipeEditorPage.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCurrentUser } from '../../utils/auth';
+import { API_BASE_URL } from '../../config/api';
 
 const emptyForm = {
   title: '',
@@ -35,7 +36,7 @@ const MyRecipeEditorPage = () => {
 
     const fetchRecipe = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`);
+        const res = await fetch(`${API_BASE_URL}/api/recipes/${id}`);
         if (!res.ok) throw new Error('Failed to load recipe');
         const data = await res.json();
 
@@ -118,8 +119,8 @@ const MyRecipeEditorPage = () => {
 
     try {
       const url = isNew
-        ? `${process.env.REACT_APP_API_URL}/api/recipes`
-        : `${process.env.REACT_APP_API_URL}/api/recipes/${id}`;
+        ? `${API_BASE_URL}/api/recipes`
+        : `${API_BASE_URL}/api/recipes/${id}`;
       const method = isNew ? 'POST' : 'PUT';
 
       const res = await fetch(url, {
@@ -149,7 +150,7 @@ const MyRecipeEditorPage = () => {
     if (!window.confirm('Are you sure you want to delete this recipe?')) return;
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/recipes/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: user.id }),

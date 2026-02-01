@@ -4,6 +4,7 @@ import './MyFoodBankPage.css';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../../utils/auth';
 import MyRecipeCard from '../../components/MyRecipeCard/MyRecipeCard';
+import { API_BASE_URL } from '../../config/api';
 
 const MyFoodBankPage = () => {
   const user = getCurrentUser();
@@ -16,7 +17,7 @@ const MyFoodBankPage = () => {
     const fetchMyRecipes = async () => {
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/recipes/user/${user.id}`
+          `${API_BASE_URL}/api/recipes/user/${user.id}`
         );
         if (!res.ok) throw new Error('Failed to load your recipes');
         const data = await res.json();

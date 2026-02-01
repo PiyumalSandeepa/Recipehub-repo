@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import RecipeListCard from '../../components/RecipeCard/RecipeCard';
 import './RecipesPage.css';
+import { API_BASE_URL } from '../../config/api';
 
 const RecipesPage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -14,7 +15,7 @@ const RecipesPage = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes`);
+        const res = await fetch(`${API_BASE_URL}/api/recipes`);
         if (!res.ok) throw new Error('Failed to load recipes');
 
         const data = await res.json();

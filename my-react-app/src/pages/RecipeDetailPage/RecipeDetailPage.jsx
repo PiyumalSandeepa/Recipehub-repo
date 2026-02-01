@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './RecipeDetailPage.css';
+import { API_BASE_URL } from '../../config/api';
 
 const defaultExtraDetails = {
   ingredients: [
@@ -50,7 +51,7 @@ const RecipeDetailPage = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`);
+        const res = await fetch(`${API_BASE_URL}/api/recipes/${id}`);
         if (!res.ok) {
           throw new Error('Failed to load recipe');
         }

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // ✅ FIX
 import Navbar from '../../components/Navbar/Navbar';
 import './Homepage.css';
+import { API_BASE_URL } from '../../config/api';
 import loginImage from '../../assets/images/heroimage.jpg';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 
@@ -17,7 +18,7 @@ const Homepage = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes`);
+        const response = await fetch(`${API_BASE_URL}/api/recipes`);
 
         if (!response.ok) {
           throw new Error('Failed to load recipes');
