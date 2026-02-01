@@ -14,7 +14,7 @@ const RecipesPage = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await fetch('http://localhost:4000/api/recipes');
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes`);
         if (!res.ok) throw new Error('Failed to load recipes');
 
         const data = await res.json();

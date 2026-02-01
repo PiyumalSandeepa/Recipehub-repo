@@ -14,9 +14,9 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      console.log('Attempting login to:', 'http://localhost:4000/api/users/login'); // Debug log
+      console.log('Attempting login to:', `${process.env.REACT_APP_API_URL}/api/users/login`); // Debug log
       
-      const response = await fetch('http://localhost:4000/api/users/login', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -35,7 +35,7 @@ const MyRecipeEditorPage = () => {
 
     const fetchRecipe = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/recipes/${id}`);
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`);
         if (!res.ok) throw new Error('Failed to load recipe');
         const data = await res.json();
 
@@ -118,8 +118,8 @@ const MyRecipeEditorPage = () => {
 
     try {
       const url = isNew
-        ? 'http://localhost:4000/api/recipes'
-        : `http://localhost:4000/api/recipes/${id}`;
+        ? `${process.env.REACT_APP_API_URL}/api/recipes`
+        : `${process.env.REACT_APP_API_URL}/api/recipes/${id}`;
       const method = isNew ? 'POST' : 'PUT';
 
       const res = await fetch(url, {
@@ -149,7 +149,7 @@ const MyRecipeEditorPage = () => {
     if (!window.confirm('Are you sure you want to delete this recipe?')) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/recipes/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: user.id }),
