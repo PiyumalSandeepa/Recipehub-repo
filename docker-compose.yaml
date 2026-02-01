@@ -35,7 +35,7 @@ services:
       mysql_db:
         condition: service_healthy  # Wait for MySQL to be healthy
     restart: always
-    command: npm start
+    command: npm run dev
 
   mysql_db:
     image: mysql:8.0
