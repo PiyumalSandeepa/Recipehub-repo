@@ -35,8 +35,8 @@ services:
       mysql_db:
         condition: service_healthy
     restart: always
-    command: npx nodemon index.js 
-    
+    command: ["npx", "nodemon", "index.js"] 
+
   mysql_db:
     image: mysql:8.0
     container_name: recipehub_mysql
