@@ -16,7 +16,7 @@ const MyFoodBankPage = () => {
     const fetchMyRecipes = async () => {
       try {
         const res = await fetch(
-          `http://16.16.146.156:4000/api/recipes/user/${user.id}`
+          `http://localhost:4000/api/recipes/user/${user.id}`
         );
         if (!res.ok) throw new Error('Failed to load your recipes');
         const data = await res.json();
