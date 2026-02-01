@@ -1,16 +1,16 @@
-
-FROM node:20
-
+FROM node:18-alpine
 
 WORKDIR /app
- 
+
 COPY package*.json ./
- 
+
+# Install nodemon globally
+RUN npm install -g nodemon
+
 RUN npm install
 
-
 COPY . .
- 
+
 EXPOSE 4000
- 
+
 CMD ["npm", "run", "dev"]
