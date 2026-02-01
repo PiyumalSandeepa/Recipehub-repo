@@ -4,47 +4,55 @@ const db = require('../db');
 // Ensure recipes table exists and has needed columns
 (async () => {
   try {
-    await db.query(`
-      CREATE TABLE IF NOT EXISTS recipes (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NULL,
-        title VARCHAR(255) NOT NULL,
-        publisher VARCHAR(255),
-        description TEXT,
-        tag VARCHAR(100),
-        date VARCHAR(50),
-        comments INT DEFAULT 0,
-        image_url VARCHAR(500),
-        extra_images TEXT,
-        prep_time VARCHAR(50),
-        cook_time VARCHAR(50),
-        difficulty VARCHAR(50),
-        servings INT,
-        calories VARCHAR(50),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-
-    // For older tables, ensure columns exist
     try {
-      await db.query(
-        'ALTER TABLE recipes ADD COLUMN user_id INT NULL AFTER id'
-      );
-    } catch (err) {
-      if (err.code !== 'ER_DUP_FIELDNAME') throw err;
-    }
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS recipes (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          user_id INT NULL,
+          title VARCHAR(255) NOT NULL,
+          publisher VARCHAR(255),
+          description TEXT,
+          tag VARCHAR(100),
+          date VARCHAR(50),
+          comments INT DEFAULT 0,
+          image_url VARCHAR(500),
+          extra_images TEXT,
+          prep_time VARCHAR(50),
+          cook_time VARCHAR(50),
+          difficulty VARCHAR(50),
+          servings INT,
+          calories VARCHAR(50),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
 
-    try {
-      await db.query(
-        'ALTER TABLE recipes ADD COLUMN extra_images TEXT NULL AFTER image_url'
-      );
-    } catch (err) {
-      if (err.code !== 'ER_DUP_FIELDNAME') throw err;
-    }
+      // For older tables, ensure columns exist
+      try {
+        await db.query(
+          'ALTER TABLE recipes ADD COLUMN user_id INT NULL AFTER id'
+        );
+      } catch (err) {
+        if (err.code !== 'ER_DUP_FIELDNAME') throw err;
+      }
 
-    console.log('recipes table is ready');
+      try {
+        await db.query(
+          'ALTER TABLE recipes ADD COLUMN extra_images TEXT NULL AFTER image_url'
+        );
+      } catch (err) {
+        if (err.code !== 'ER_DUP_FIELDNAME') throw err;
+      }
+
+      console.log('✓ recipes table is ready');
+    } catch (dbErr) {
+      if (dbErr.code === 'ECONNREFUSED') {
+        console.warn('⚠ Database not available - will retry on first request');
+      } else {
+        throw dbErr;
+      }
+    }
   } catch (err) {
-    console.error('Error creating/updating recipes table:', err);
+    console.error('Error initializing recipes table:', err.message);
   }
 })();
 
