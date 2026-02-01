@@ -6,13 +6,7 @@ const userRoutes = require('./routes/userRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 
 const app = express();
-
-// CORS Configuration - Allow frontend origin
-const corsOptions = {
-  origin: ['http://localhost:3000', 'http://16.16.146.156', 'http://16.16.146.156:3000'],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // Test backend
