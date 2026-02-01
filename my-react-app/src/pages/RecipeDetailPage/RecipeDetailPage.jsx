@@ -50,7 +50,7 @@ const RecipeDetailPage = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/recipes/${id}`);
+        const res = await fetch(`http://16.16.146.156:4000/api/recipes/${id}`);
         if (!res.ok) {
           throw new Error('Failed to load recipe');
         }
