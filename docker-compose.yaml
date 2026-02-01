@@ -33,10 +33,10 @@ services:
       NODE_ENV: development
     depends_on:
       mysql_db:
-        condition: service_healthy  # Wait for MySQL to be healthy
+        condition: service_healthy
     restart: always
-    command: npm run dev
-
+    command: npx nodemon index.js 
+    
   mysql_db:
     image: mysql:8.0
     container_name: recipehub_mysql
