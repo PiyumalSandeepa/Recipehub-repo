@@ -1,0 +1,9 @@
+aws_region       = "us-east-1"
+environment      = "dev"
+project_name     = "recipehub"
+vpc_cidr         = "10.0.0.0/16"
+instance_type    = "t3.micro"
+instance_count   = 1
+database_name    = "recipehub"
+db_allocated_storage = 20
+db_engine_version = "8.0"

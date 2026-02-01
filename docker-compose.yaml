@@ -33,9 +33,9 @@ services:
       NODE_ENV: development
     depends_on:
       mysql_db:
-        condition: service_healthy
+        condition: service_healthy  # Wait for MySQL to be healthy
     restart: always
-    command: ["npx", "nodemon", "index.js"] 
+    command: npm start
 
   mysql_db:
     image: mysql:8.0
