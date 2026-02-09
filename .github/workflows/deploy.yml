@@ -39,6 +39,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
+          command_timeout: 5m
           script: |
             cd ~/recipehub
             echo "${{ secrets.DEVOPS }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
