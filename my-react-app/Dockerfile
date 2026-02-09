@@ -10,7 +10,9 @@ COPY . .
 
 EXPOSE 3000
 
-ARG REACT_APP_API_URL
+ARG REACT_APP_API_URL=http://localhost:4000
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
-CMD ["npm", "start"]
+RUN npm run build
+
+CMD ["npx", "serve", "-s", "build", "-l", "3000"]
