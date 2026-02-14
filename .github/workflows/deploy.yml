@@ -39,17 +39,28 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          command_timeout: 10m
+          command_timeout: 15m
           script: |
             cd ~/recipehub
-            # Login to Docker
+
+            echo "Logging into Docker Hub..."
             echo "${{ secrets.DEVOPS }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-            # Pull latest images
+
+            echo "Stopping existing containers..."
+            docker-compose down -v
+
+            echo "Cleaning unused Docker data to free space..."
+            docker system prune -af
+            docker volume prune -f
+
+            echo "Pulling latest images..."
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-backend:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-frontend:latest
-            # Stop and remove containers AND volumes
-            docker-compose down -v
-            # Start new containers in detached mode
-            docker-compose up -d
-            # Cleanup old images
-            docker image prune -f
+
+            echo "Starting new containers..."
+            docker-compose up -d --force-recreate
+
+            echo "Final cleanup..."
+            docker image prune -af
+
+            echo "Deployment completed successfully!"
