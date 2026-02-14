@@ -43,24 +43,26 @@ jobs:
           script: |
             cd ~/recipehub
 
-            echo "Logging into Docker Hub..."
+            echo "=== Logging into Docker Hub ==="
             echo "${{ secrets.DEVOPS }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-            echo "Stopping existing containers..."
-            docker-compose down -v
+            echo "=== Freeing disk space (SAFE - database not affected) ==="
+            docker image prune -af
+            docker container prune -f
+            docker builder prune -af
 
-            echo "Cleaning unused Docker data to free space..."
-            docker system prune -af
-            docker volume prune -f
-
-            echo "Pulling latest images..."
+            echo "=== Pulling latest images ==="
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-backend:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-frontend:latest
 
-            echo "Starting new containers..."
-            docker-compose up -d --force-recreate
+            echo "=== Restarting containers ==="
+            docker-compose down
+            docker-compose up -d
 
-            echo "Final cleanup..."
-            docker image prune -af
+            echo "=== Waiting for services to start ==="
+            sleep 15
 
-            echo "Deployment completed successfully!"
+            echo "=== Checking container status ==="
+            docker-compose ps
+
+            echo "=== Deployment completed successfully! ==="
