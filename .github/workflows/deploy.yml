@@ -43,41 +43,43 @@ jobs:
           script: |
             cd ~/recipehub
 
+            echo "=== Disk space BEFORE ==="
+            df -h /
+
             echo "=== Logging into Docker Hub ==="
             echo "${{ secrets.DEVOPS }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-            echo "=== Checking disk space BEFORE cleanup ==="
-            df -h /
 
             echo "=== Stopping containers ==="
             docker-compose down
 
-            echo "=== Removing old backend and frontend images ==="
-            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-backend:latest || true
-            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-frontend:latest || true
+            echo "=== Force removing old backend and frontend images ==="
+            docker rmi -f ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-backend:latest || true
+            docker rmi -f ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-frontend:latest || true
 
             echo "=== Cleaning unused images and cache ==="
             docker image prune -af
             docker container prune -f
             docker builder prune -af
 
-            echo "=== Checking disk space AFTER cleanup ==="
+            echo "=== Disk space AFTER cleanup ==="
             df -h /
 
-            echo "=== Pulling latest images ==="
+            echo "=== Pulling FRESH backend image ==="
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-backend:latest
+
+            echo "=== Pulling FRESH frontend image ==="
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/recipehub-frontend:latest
 
-            echo "=== Starting containers ==="
+            echo "=== Starting ALL containers ==="
             docker-compose up -d
 
-            echo "=== Waiting for services to start ==="
-            sleep 15
+            echo "=== Waiting for MySQL to be healthy ==="
+            sleep 20
 
-            echo "=== Checking container status ==="
+            echo "=== Container status ==="
             docker-compose ps
 
-            echo "=== Verifying images ==="
-            docker images | grep recipehub
+            echo "=== Disk space FINAL ==="
+            df -h /
 
             echo "=== Deployment completed successfully! ==="
